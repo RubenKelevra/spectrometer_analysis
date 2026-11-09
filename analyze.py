@@ -13,11 +13,13 @@ def read_spectral_data(file_path: str) -> dict[float, float]:
             if line.strip() == "" or line.strip().startswith("nm") or line.startswith("---"):
                 continue
 
-            parts = line.split()
+            parts = line.replace(",", " ").split()
             if len(parts) == 2:
                 wavelength = float(parts[0])
                 intensity = float(parts[1])
                 spectral_data[wavelength] = intensity
+    if not spectral_data:
+        raise ValueError(f"No spectral data found in {file_path}")
     return spectral_data
 
 
